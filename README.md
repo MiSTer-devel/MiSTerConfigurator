@@ -1,2 +1,2 @@
 # MiSTerConfigurator
-Tool for configuring MiSTer.in, downloading cores and extras
+Tool for configuring MiSTer.ini, downloading cores and extras
