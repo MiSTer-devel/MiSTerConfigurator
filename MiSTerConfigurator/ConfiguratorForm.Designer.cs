@@ -46,7 +46,9 @@
             System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Game Boy Palettes");
             System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Updater");
             System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Scripts");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("SoundFont Installer");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Other Authors Scripts");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("SoundFont Installer");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("NeoGeo romset.xml");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfiguratorForm));
             this.tabControlSections = new System.Windows.Forms.TabControl();
             this.tabPageWizard = new System.Windows.Forms.TabPage();
@@ -78,6 +80,7 @@
             this.btnAdvanced = new System.Windows.Forms.Button();
             this.btn1ClickSetup = new System.Windows.Forms.Button();
             this.tabPageCores = new System.Windows.Forms.TabPage();
+            this.chkRemoveArcadePrefix = new System.Windows.Forms.CheckBox();
             this.txtUtilityDir = new System.Windows.Forms.TextBox();
             this.lblUtilityDir = new System.Windows.Forms.Label();
             this.txtArcadeDir = new System.Windows.Forms.TextBox();
@@ -463,6 +466,7 @@
             // 
             // tabPageCores
             // 
+            this.tabPageCores.Controls.Add(this.chkRemoveArcadePrefix);
             this.tabPageCores.Controls.Add(this.txtUtilityDir);
             this.tabPageCores.Controls.Add(this.lblUtilityDir);
             this.tabPageCores.Controls.Add(this.txtArcadeDir);
@@ -480,6 +484,18 @@
             this.tabPageCores.TabIndex = 0;
             this.tabPageCores.Text = "Cores";
             this.tabPageCores.UseVisualStyleBackColor = true;
+            // 
+            // chkRemoveArcadePrefix
+            // 
+            this.chkRemoveArcadePrefix.AutoSize = true;
+            this.chkRemoveArcadePrefix.Checked = true;
+            this.chkRemoveArcadePrefix.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRemoveArcadePrefix.Location = new System.Drawing.Point(11, 443);
+            this.chkRemoveArcadePrefix.Name = "chkRemoveArcadePrefix";
+            this.chkRemoveArcadePrefix.Size = new System.Drawing.Size(144, 17);
+            this.chkRemoveArcadePrefix.TabIndex = 10;
+            this.chkRemoveArcadePrefix.Text = "Remove \"Arcade-\" prefix";
+            this.chkRemoveArcadePrefix.UseVisualStyleBackColor = true;
             // 
             // txtUtilityDir
             // 
@@ -655,9 +671,16 @@
             treeNode13.Name = "Scripts";
             treeNode13.Tag = "https://github.com/MiSTer-devel/Scripts_MiSTer|sh inc|Scripts";
             treeNode13.Text = "Scripts";
-            treeNode14.Name = "SoundFont Installer";
-            treeNode14.Tag = "https://github.com/bbond007/MiSTer_MidiLink/tree/master/INSTALL|sh inc|Scripts";
-            treeNode14.Text = "SoundFont Installer";
+            treeNode14.Name = "Other Authors Scripts";
+            treeNode14.Tag = "https://github.com/MiSTer-devel/Scripts_MiSTer/tree/master/other_authors|sh inc|S" +
+    "cripts";
+            treeNode14.Text = "Other Authors Scripts";
+            treeNode15.Name = "SoundFont Installer";
+            treeNode15.Tag = "https://github.com/bbond007/MiSTer_MidiLink/tree/master/INSTALL|sh inc|Scripts";
+            treeNode15.Text = "SoundFont Installer";
+            treeNode16.Name = "NeoGeo romset.xml";
+            treeNode16.Tag = "https://github.com/MiSTer-devel/NeoGeo_MiSTer/tree/master/releases|xml|NeoGeo";
+            treeNode16.Text = "NeoGeo romset.xml";
             this.treeViewExtras.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode8,
             treeNode9,
@@ -665,7 +688,9 @@
             treeNode11,
             treeNode12,
             treeNode13,
-            treeNode14});
+            treeNode14,
+            treeNode15,
+            treeNode16});
             this.treeViewExtras.Size = new System.Drawing.Size(384, 379);
             this.treeViewExtras.TabIndex = 0;
             this.treeViewExtras.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewExtras_AfterSelect);
@@ -825,6 +850,7 @@
         private System.Windows.Forms.Label lblWiFiCountry;
         private System.Windows.Forms.LinkLabel linkLabelUnixInstaller;
         private System.Windows.Forms.Button btnMiSTerDirRefresh;
+        private System.Windows.Forms.CheckBox chkRemoveArcadePrefix;
 
     }
 }

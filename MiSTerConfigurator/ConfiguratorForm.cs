@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
 using System.Text.RegularExpressions;
 using System.IO;
 
@@ -263,7 +262,7 @@ namespace MiSTerConfigurator
 
         #region "Cores business logic"
 
-        private void downloadCores(System.Windows.Forms.TreeNodeCollection Nodes, String currentDirectory, String workDirectory)
+        private void downloadCores(System.Windows.Forms.TreeNodeCollection Nodes, String currentDirectory, String workDirectory, bool removeArcadePrefix)
         {
             foreach (System.Windows.Forms.TreeNode objNode in Nodes)
             {
@@ -285,16 +284,16 @@ namespace MiSTerConfigurator
                             currentDirectory = Path.Combine(getControlText_TS(cmbMiSTerDir), getControlText_TS(txtUtilityDir));
                             break;
                     };
-                    downloadCores(objNode.Nodes, currentDirectory, workDirectory);
+                    downloadCores(objNode.Nodes, currentDirectory, workDirectory, removeArcadePrefix);
                 }
                 else
                 {
-                    if (objNode.Checked) downloadCore(objNode.Text, objNode.Tag.ToString(), currentDirectory, workDirectory);
+                    if (objNode.Checked) downloadCore(objNode.Text, objNode.Tag.ToString(), currentDirectory, workDirectory, removeArcadePrefix);
                 };
             };
         }
 
-        private delegate void delegateDownloadCores(System.Windows.Forms.TreeNodeCollection Nodes, String currentDirectory, String workDirectory);
+        private delegate void delegateDownloadCores(System.Windows.Forms.TreeNodeCollection Nodes, String currentDirectory, String workDirectory, bool removeArcadePrefix);
         private void asyncDownloadCoresCallBack(IAsyncResult AsyncResult)
         {
             ((delegateDownloadCores)AsyncResult.AsyncState).EndInvoke(AsyncResult);
@@ -305,15 +304,15 @@ namespace MiSTerConfigurator
                 asyncDownloadExtras(treeViewExtras.Nodes, getControlText_TS(cmbMiSTerDir));
             };
         }
-        private void asyncDownloadCores(System.Windows.Forms.TreeNodeCollection Nodes, String currentDirectory, String workDirectory)
+        private void asyncDownloadCores(System.Windows.Forms.TreeNodeCollection Nodes, String currentDirectory, String workDirectory, bool removeArcadePrefix)
         {
             delegateDownloadCores objDelegateDownloadCores = new delegateDownloadCores(downloadCores);
-            objDelegateDownloadCores.BeginInvoke(Nodes, currentDirectory, workDirectory, asyncDownloadCoresCallBack, objDelegateDownloadCores);
+            objDelegateDownloadCores.BeginInvoke(Nodes, currentDirectory, workDirectory, removeArcadePrefix, asyncDownloadCoresCallBack, objDelegateDownloadCores);
         }
 
         readonly Regex objRegExCoreReleasesURL = new Regex("/MiSTer-devel/[a-zA-Z0-9./_-]*/tree/[a-zA-Z0-9./_-]*/releases", RegexOptions.Compiled);
         readonly Regex objRegExCoreReleases = new Regex("/MiSTer-devel/.*/(?<FileName>(?<BaseName>[a-zA-Z0-9._-]*)_(?<TimeStamp>[0-9]{8}[a-zA-Z]?)(?<FileExtension>\\.rbf|\\.rar)?)", RegexOptions.Compiled);
-        private void downloadCore(String coreName, String coreURL, String coreDirectory, String workDirectory)
+        private void downloadCore(String coreName, String coreURL, String coreDirectory, String workDirectory, bool removeArcadePrefix)
         {
             String strReleases;
             Match objMaxReleaseMatch = null;
@@ -322,6 +321,7 @@ namespace MiSTerConfigurator
             Match objMaxLocalFileMatch = null;
             String strDestinationFile = null;
             String strDestinationDirectory = null;
+            String strBaseName = null;
 
             writeStatusLabel_TS("Checking " + coreName);
             Application.DoEvents();
@@ -340,7 +340,7 @@ namespace MiSTerConfigurator
             };
             foreach (Match objMatch in objRegExCoreReleases.Matches(strReleases))
             {
-                if ((coreName.CompareTo("Atari 800XL")!=0 || objMatch.Groups["BaseName"].Value.CompareTo("Atari800")==0) && (coreName.CompareTo("Atari 5200")!=0 || objMatch.Groups["BaseName"].Value.CompareTo("Atari5200")==0))
+                if ((coreName.CompareTo("Atari 800XL") != 0 || objMatch.Groups["BaseName"].Value.CompareTo("Atari800") == 0) && (coreName.CompareTo("Atari 5200") != 0 || objMatch.Groups["BaseName"].Value.CompareTo("Atari5200") == 0))
                 {
                     if (objMaxReleaseMatch == null || objMatch.Groups["TimeStamp"].Value.CompareTo(objMaxReleaseMatch.Groups["TimeStamp"].Value) > 0)
                     {
@@ -350,7 +350,9 @@ namespace MiSTerConfigurator
             };
             if (objMaxReleaseMatch != null)
             {
-                switch (objMaxReleaseMatch.Groups["BaseName"].Value)
+                strBaseName = objMaxReleaseMatch.Groups["BaseName"].Value;
+                if (removeArcadePrefix && strBaseName.StartsWith("Arcade-")) strBaseName = strBaseName.Remove(0, 7);
+                switch (strBaseName)
                 {
                     case "MiSTer":
                     case "menu":
@@ -362,8 +364,8 @@ namespace MiSTerConfigurator
                 };
                 if (Directory.Exists(strDestinationDirectory))
                 {
-                    objRegExLocalFiles = new Regex(objMaxReleaseMatch.Groups["BaseName"].Value + "_(?<TimeStamp>[0-9]{8}[a-zA-Z]?)" + objMaxReleaseMatch.Groups["FileExtension"].Value.Replace(".", "\\.") + "$");
-                    foreach (String strFile in Directory.GetFiles(strDestinationDirectory, objMaxReleaseMatch.Groups["BaseName"].Value + "*" + objMaxReleaseMatch.Groups["FileExtension"].Value))
+                    objRegExLocalFiles = new Regex(strBaseName + "_(?<TimeStamp>[0-9]{8}[a-zA-Z]?)" + objMaxReleaseMatch.Groups["FileExtension"].Value.Replace(".", "\\.") + "$");
+                    foreach (String strFile in Directory.GetFiles(strDestinationDirectory, strBaseName + "*" + objMaxReleaseMatch.Groups["FileExtension"].Value))
                     {
                         objCurrentLocalFileMatch = objRegExLocalFiles.Match(strFile);
                         if (objCurrentLocalFileMatch != null && !String.IsNullOrEmpty(objCurrentLocalFileMatch.Value))
@@ -390,7 +392,9 @@ namespace MiSTerConfigurator
                 {
                     if (!Directory.Exists(strDestinationDirectory) && !CreateDirectorySafe(strDestinationDirectory)) return;
 
-                    strDestinationFile = Path.Combine(strDestinationDirectory, objMaxReleaseMatch.Groups["FileName"].Value);
+                    strDestinationFile = objMaxReleaseMatch.Groups["FileName"].Value;
+                    if (removeArcadePrefix && strDestinationFile.StartsWith("Arcade-")) strDestinationFile = strDestinationFile.Remove(0, 7);
+                    strDestinationFile = Path.Combine(strDestinationDirectory, strDestinationFile);
                     writeStatusLabel_TS("Downloading " + coreName);
                     Application.DoEvents();
                     try
@@ -404,16 +408,16 @@ namespace MiSTerConfigurator
                         System.Threading.Thread.Sleep(intErrorPause);
                         return;
                     };
-                    switch (objMaxReleaseMatch.Groups["BaseName"].Value)
+                    switch (strBaseName)
                     {
                         case "MiSTer":
-                            if (File.Exists(Path.Combine(coreDirectory, objMaxReleaseMatch.Groups["BaseName"].Value))) File.Delete(Path.Combine(coreDirectory, objMaxReleaseMatch.Groups["BaseName"].Value));
-                            File.Move(strDestinationFile, Path.Combine(coreDirectory, objMaxReleaseMatch.Groups["BaseName"].Value));
+                            if (File.Exists(Path.Combine(coreDirectory, strBaseName))) File.Delete(Path.Combine(coreDirectory, strBaseName));
+                            File.Move(strDestinationFile, Path.Combine(coreDirectory, strBaseName));
                             createEmptyFile(strDestinationFile);
                             break;
                         case "menu":
-                            if (File.Exists(Path.Combine(coreDirectory, objMaxReleaseMatch.Groups["BaseName"].Value + objMaxReleaseMatch.Groups["FileExtension"].Value))) File.Delete(Path.Combine(coreDirectory, objMaxReleaseMatch.Groups["BaseName"].Value + objMaxReleaseMatch.Groups["FileExtension"].Value));
-                            File.Move(strDestinationFile, Path.Combine(coreDirectory, objMaxReleaseMatch.Groups["BaseName"].Value + objMaxReleaseMatch.Groups["FileExtension"].Value));
+                            if (File.Exists(Path.Combine(coreDirectory, strBaseName + objMaxReleaseMatch.Groups["FileExtension"].Value))) File.Delete(Path.Combine(coreDirectory, strBaseName + objMaxReleaseMatch.Groups["FileExtension"].Value));
+                            File.Move(strDestinationFile, Path.Combine(coreDirectory, strBaseName + objMaxReleaseMatch.Groups["FileExtension"].Value));
                             createEmptyFile(strDestinationFile);
                             break;
                     };
@@ -468,7 +472,7 @@ namespace MiSTerConfigurator
         private void downoadExtra(String extraName, String extraURL, String extraFilters, String extraDirectory)
         {
             String strReleases;
-            Regex objRegExReleases = new Regex("href=\"(?<ExtraURL>[^\"]*/(?<ExtraFile>[^\"]*?(?:" + extraFilters.Replace(" ", "|") + ")))\".*?<td class=\"age\">.*?<time-ago datetime=\"(?<Year>\\d{4})-(?<Month>\\d{2})-(?<Day>\\d{2})T(?<Hour>\\d{2}):(?<Minute>\\d{2}):(?<Second>\\d{2})Z\">", RegexOptions.Singleline);
+            Regex objRegExReleases = new Regex("href=\"(?<ExtraURL>[^\"]*/(?<ExtraFile>[^\"]*?(?:" + extraFilters.Replace(" ", "|") + ")))\".*?<td class=\"age\">.*?<time-ago datetime=\"(?<Year>\\d{4})-(?<Month>\\d{2})-(?<Day>\\d{2})T(?<Hour>\\d{2}):(?<Minute>\\d{2}):(?<Second>\\d{2})Z\"", RegexOptions.Singleline);
             String strLocalFileName;
             DateTime dtmReleaseDateTimeUTC;
 
@@ -1084,6 +1088,16 @@ namespace MiSTerConfigurator
             return this.Invoke(new delegateGetControlText(getControlText), control).ToString();
         }
 
+        private delegate bool delegateGetControlChecked(System.Windows.Forms.Control control);
+        private bool getControlChecked(System.Windows.Forms.Control control)
+        {
+            return ((System.Windows.Forms.CheckBox)control).Checked;
+        }
+        private bool getControlChecked_TS(System.Windows.Forms.Control control)
+        {
+            return (bool)this.Invoke(new delegateGetControlChecked(getControlChecked), control);
+        }
+
         private void writeStatusLabel(String labelText)
         {
             toolStripStatusLabel1.Text = labelText;
@@ -1269,7 +1283,7 @@ namespace MiSTerConfigurator
                 blnDownloadingCores = true;
                 blnDownloadingExtras = true;
                 blnRunningWizard = true;
-                asyncDownloadCores(treeViewCores.Nodes, cmbMiSTerDir.Text, Path.Combine(getControlText_TS(cmbMiSTerDir), strWorkDir));
+                asyncDownloadCores(treeViewCores.Nodes, cmbMiSTerDir.Text, Path.Combine(getControlText_TS(cmbMiSTerDir), strWorkDir), getControlChecked_TS(chkRemoveArcadePrefix));
             }
             else
             {
@@ -1333,7 +1347,7 @@ namespace MiSTerConfigurator
                 createSDInstallerSemaphore(getControlText_TS(cmbMiSTerDir), Path.Combine(getControlText_TS(cmbMiSTerDir), strWorkDir));
                 writeStatusLabel("Downloading cores");
                 blnDownloadingCores = true;
-                asyncDownloadCores(treeViewCores.Nodes, cmbMiSTerDir.Text, Path.Combine(getControlText_TS(cmbMiSTerDir), strWorkDir));
+                asyncDownloadCores(treeViewCores.Nodes, cmbMiSTerDir.Text, Path.Combine(getControlText_TS(cmbMiSTerDir), strWorkDir), getControlChecked_TS(chkRemoveArcadePrefix));
             }
             else
             {
