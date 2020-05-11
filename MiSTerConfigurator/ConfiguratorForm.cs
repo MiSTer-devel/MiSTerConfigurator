@@ -17,6 +17,8 @@ namespace MiSTerConfigurator
         const String strMiSTerURL = "https://github.com/MiSTer-devel/Main_MiSTer";
         const String strMiSTerINIURL = "https://github.com/MiSTer-devel/Main_MiSTer/blob/master/MiSTer.ini";
         const String strMiSTerWikiURL = "https://github.com/MiSTer-devel/Main_MiSTer/wiki/";
+        // The arcade files no longer apprear in the right menu load from there own page
+        const String strMiSTerArcadeWikiURL = "https://github.com/MiSTer-devel/Main_MiSTer/wiki/Arcade-Cores-List";
         const String strMacOSInstaller = "macOS MiSTer SD Card Formatter Script (by michaelshmitty)|https://github.com/michaelshmitty/SD-Installer-macos_MiSTer|MiSTer-sd-installer-macos.sh";
         const String strLinuxInstaller = "Linux MiSTer SD Card Formatter Script (by alanswx)|https://github.com/alanswx/SD-installer_MiSTer|create_sd.sh";
         const string strLocalFilesDir = "files";
@@ -271,12 +273,15 @@ namespace MiSTerConfigurator
                 {
                     switch (objNode.Name)
                     {
-                        case "cores":
+                        case "computers---classic":
                             currentDirectory = Path.Combine(getControlText_TS(cmbMiSTerDir), getControlText_TS(txtComputerDir));
                             break;
-                        case "console-cores":
+                        case "consoles---classic":
                             currentDirectory = Path.Combine(getControlText_TS(cmbMiSTerDir), getControlText_TS(txtConsoleDir));
                             break;
+                        case "other-systems":
+                            currentDirectory = Path.Combine(getControlText_TS(cmbMiSTerDir), getControlText_TS(txtOtherDir));
+                            break;                   
                         case "arcade-cores":
                             currentDirectory = Path.Combine(getControlText_TS(cmbMiSTerDir), getControlText_TS(txtArcadeDir));
                             break;
@@ -1002,7 +1007,7 @@ namespace MiSTerConfigurator
                 System.Threading.Thread.Sleep(intErrorPause);
                 return;
             };
-            strMiSTerWiki = strMiSTerWiki.Substring(strMiSTerWiki.IndexOf("user-content-cores"));
+            strMiSTerWiki = strMiSTerWiki.Substring(strMiSTerWiki.IndexOf("user-content-computers---classic"));
             strMiSTerWiki = strMiSTerWiki.Substring(0, strMiSTerWiki.IndexOf("user-content-development"));
             foreach (Match objMatch in objRegExCoresTree.Matches(strMiSTerWiki))
             {
@@ -1018,6 +1023,33 @@ namespace MiSTerConfigurator
                     };
                 };
             };
+
+            //HACK TO LOAD ARCADE CORES
+
+            try
+            {
+                strMiSTerWiki = objWebClient.DownloadString(strMiSTerArcadeWikiURL);
+            }
+            catch (System.Exception ex)
+            {
+                writeLog(ex.ToString());
+                writeStatusLabel("Error downloading MiSTer Arcade wiki");
+                System.Threading.Thread.Sleep(intErrorPause);
+                return;
+            };
+            strMiSTerWiki = strMiSTerWiki.Substring(strMiSTerWiki.IndexOf("wiki-content"));
+            strMiSTerWiki = strMiSTerWiki.Substring(0, strMiSTerWiki.IndexOf("wiki-footer"));
+
+            objCategoryNode = treeViewCores.Nodes.Find("arcade-cores", true)[0];
+            foreach (Match objMatch in objRegExCoresTree.Matches(strMiSTerWiki))
+            {
+                if (objMatch.Groups["CoreURL"].Value.EndsWith("_MiSTer"))
+                {
+                    objCategoryNode.Nodes.Add(objMatch.Groups["CoreName"].Value).Tag = objMatch.Groups["CoreURL"].Value;
+                };
+                //};
+            };
+
             writeStatusLabel("Ready");
         }
 
@@ -1329,8 +1361,9 @@ namespace MiSTerConfigurator
             switch (e.Node.Name)
             {
                 case "root":
-                case "cores":
-                case "console-cores":
+                case "computers---classic":
+                case "consoles---classic":
+                case "other-systems":
                 case "arcade-cores":
                 case "service-cores":
                     foreach (System.Windows.Forms.TreeNode objNode in e.Node.Nodes)

@@ -33,22 +33,24 @@
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Boot Menu");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Computer");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Console");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Arcade");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Utility");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Cores", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Other Systems");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Arcade");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Utility");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Cores", new System.Windows.Forms.TreeNode[] {
             treeNode3,
             treeNode4,
             treeNode5,
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Filters");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Fonts");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Cheats");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Game Boy Palettes");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Updater");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Scripts");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Other Authors Scripts");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("SoundFont Installer");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("NeoGeo romset.xml");
+            treeNode6,
+            treeNode7});
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Filters");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Fonts");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Cheats");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Game Boy Palettes");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Updater");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Scripts");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Other Authors Scripts");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("SoundFont Installer");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("NeoGeo romset.xml");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfiguratorForm));
             this.tabControlSections = new System.Windows.Forms.TabControl();
             this.tabPageWizard = new System.Windows.Forms.TabPage();
@@ -80,6 +82,8 @@
             this.btnAdvanced = new System.Windows.Forms.Button();
             this.btn1ClickSetup = new System.Windows.Forms.Button();
             this.tabPageCores = new System.Windows.Forms.TabPage();
+            this.txtOtherDir = new System.Windows.Forms.TextBox();
+            this.lblOtherDir = new System.Windows.Forms.Label();
             this.chkRemoveArcadePrefix = new System.Windows.Forms.CheckBox();
             this.txtUtilityDir = new System.Windows.Forms.TextBox();
             this.lblUtilityDir = new System.Windows.Forms.Label();
@@ -123,7 +127,7 @@
             this.tabControlSections.Location = new System.Drawing.Point(0, 0);
             this.tabControlSections.Name = "tabControlSections";
             this.tabControlSections.SelectedIndex = 0;
-            this.tabControlSections.Size = new System.Drawing.Size(406, 489);
+            this.tabControlSections.Size = new System.Drawing.Size(521, 489);
             this.tabControlSections.TabIndex = 0;
             // 
             // tabPageWizard
@@ -148,7 +152,7 @@
             this.tabPageWizard.Location = new System.Drawing.Point(4, 25);
             this.tabPageWizard.Name = "tabPageWizard";
             this.tabPageWizard.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWizard.Size = new System.Drawing.Size(398, 460);
+            this.tabPageWizard.Size = new System.Drawing.Size(513, 460);
             this.tabPageWizard.TabIndex = 2;
             this.tabPageWizard.Text = "Wizard";
             this.tabPageWizard.UseVisualStyleBackColor = true;
@@ -202,7 +206,7 @@
             this.pnlSamba.Controls.Add(this.lblSambaUserName);
             this.pnlSamba.Location = new System.Drawing.Point(6, 153);
             this.pnlSamba.Name = "pnlSamba";
-            this.pnlSamba.Size = new System.Drawing.Size(384, 77);
+            this.pnlSamba.Size = new System.Drawing.Size(485, 77);
             this.pnlSamba.TabIndex = 15;
             // 
             // txtSambaPassword
@@ -212,7 +216,7 @@
             this.txtSambaPassword.Location = new System.Drawing.Point(114, 41);
             this.txtSambaPassword.Name = "txtSambaPassword";
             this.txtSambaPassword.PasswordChar = '*';
-            this.txtSambaPassword.Size = new System.Drawing.Size(265, 20);
+            this.txtSambaPassword.Size = new System.Drawing.Size(366, 20);
             this.txtSambaPassword.TabIndex = 3;
             this.txtSambaPassword.Text = "1";
             // 
@@ -231,7 +235,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSambaUserName.Location = new System.Drawing.Point(114, 15);
             this.txtSambaUserName.Name = "txtSambaUserName";
-            this.txtSambaUserName.Size = new System.Drawing.Size(265, 20);
+            this.txtSambaUserName.Size = new System.Drawing.Size(366, 20);
             this.txtSambaUserName.TabIndex = 1;
             this.txtSambaUserName.Text = "root";
             // 
@@ -247,7 +251,7 @@
             // btnOptimalPreset
             // 
             this.btnOptimalPreset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOptimalPreset.Location = new System.Drawing.Point(209, 107);
+            this.btnOptimalPreset.Location = new System.Drawing.Point(310, 107);
             this.btnOptimalPreset.Name = "btnOptimalPreset";
             this.btnOptimalPreset.Size = new System.Drawing.Size(183, 23);
             this.btnOptimalPreset.TabIndex = 14;
@@ -278,7 +282,7 @@
             this.pnlWiFi.Controls.Add(this.lblWiFiCountry);
             this.pnlWiFi.Location = new System.Drawing.Point(6, 247);
             this.pnlWiFi.Name = "pnlWiFi";
-            this.pnlWiFi.Size = new System.Drawing.Size(384, 102);
+            this.pnlWiFi.Size = new System.Drawing.Size(485, 102);
             this.pnlWiFi.TabIndex = 10;
             // 
             // txtWiFiPassword
@@ -288,7 +292,7 @@
             this.txtWiFiPassword.Location = new System.Drawing.Point(114, 67);
             this.txtWiFiPassword.Name = "txtWiFiPassword";
             this.txtWiFiPassword.PasswordChar = '*';
-            this.txtWiFiPassword.Size = new System.Drawing.Size(265, 20);
+            this.txtWiFiPassword.Size = new System.Drawing.Size(366, 20);
             this.txtWiFiPassword.TabIndex = 7;
             // 
             // lblWiFiPassword
@@ -306,7 +310,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWiFiSSID.Location = new System.Drawing.Point(114, 41);
             this.txtWiFiSSID.Name = "txtWiFiSSID";
-            this.txtWiFiSSID.Size = new System.Drawing.Size(265, 20);
+            this.txtWiFiSSID.Size = new System.Drawing.Size(366, 20);
             this.txtWiFiSSID.TabIndex = 5;
             // 
             // lblWiFiSSID
@@ -324,7 +328,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWiFiCountry.Location = new System.Drawing.Point(114, 15);
             this.txtWiFiCountry.Name = "txtWiFiCountry";
-            this.txtWiFiCountry.Size = new System.Drawing.Size(265, 20);
+            this.txtWiFiCountry.Size = new System.Drawing.Size(366, 20);
             this.txtWiFiCountry.TabIndex = 3;
             this.txtWiFiCountry.Text = "US";
             // 
@@ -349,7 +353,7 @@
             "Low lag"});
             this.cmbVSyncMode.Location = new System.Drawing.Point(121, 80);
             this.cmbVSyncMode.Name = "cmbVSyncMode";
-            this.cmbVSyncMode.Size = new System.Drawing.Size(269, 21);
+            this.cmbVSyncMode.Size = new System.Drawing.Size(370, 21);
             this.cmbVSyncMode.TabIndex = 9;
             // 
             // lblVSyncMode
@@ -374,7 +378,7 @@
             "Use 0.25 steps of scale"});
             this.cmbScalingMode.Location = new System.Drawing.Point(121, 53);
             this.cmbScalingMode.Name = "cmbScalingMode";
-            this.cmbScalingMode.Size = new System.Drawing.Size(269, 21);
+            this.cmbScalingMode.Size = new System.Drawing.Size(370, 21);
             this.cmbScalingMode.TabIndex = 7;
             // 
             // lblScalingMode
@@ -425,7 +429,7 @@
             "1024x600 60Hz"});
             this.cmbVideoMode.Location = new System.Drawing.Point(121, 6);
             this.cmbVideoMode.Name = "cmbVideoMode";
-            this.cmbVideoMode.Size = new System.Drawing.Size(269, 21);
+            this.cmbVideoMode.Size = new System.Drawing.Size(370, 21);
             this.cmbVideoMode.TabIndex = 3;
             this.cmbVideoMode.SelectedIndexChanged += new System.EventHandler(this.cmbVideoMode_SelectedIndexChanged);
             // 
@@ -445,7 +449,7 @@
             this.btnAdvanced.Enabled = false;
             this.btnAdvanced.Location = new System.Drawing.Point(6, 413);
             this.btnAdvanced.Name = "btnAdvanced";
-            this.btnAdvanced.Size = new System.Drawing.Size(384, 23);
+            this.btnAdvanced.Size = new System.Drawing.Size(485, 23);
             this.btnAdvanced.TabIndex = 1;
             this.btnAdvanced.Text = "Advanced...";
             this.btnAdvanced.UseVisualStyleBackColor = true;
@@ -458,7 +462,7 @@
             this.btn1ClickSetup.Enabled = false;
             this.btn1ClickSetup.Location = new System.Drawing.Point(6, 355);
             this.btn1ClickSetup.Name = "btn1ClickSetup";
-            this.btn1ClickSetup.Size = new System.Drawing.Size(384, 52);
+            this.btn1ClickSetup.Size = new System.Drawing.Size(485, 52);
             this.btn1ClickSetup.TabIndex = 0;
             this.btn1ClickSetup.Text = "1 Click Configure and Downlaod";
             this.btn1ClickSetup.UseVisualStyleBackColor = true;
@@ -466,6 +470,8 @@
             // 
             // tabPageCores
             // 
+            this.tabPageCores.Controls.Add(this.txtOtherDir);
+            this.tabPageCores.Controls.Add(this.lblOtherDir);
             this.tabPageCores.Controls.Add(this.chkRemoveArcadePrefix);
             this.tabPageCores.Controls.Add(this.txtUtilityDir);
             this.tabPageCores.Controls.Add(this.lblUtilityDir);
@@ -480,10 +486,29 @@
             this.tabPageCores.Location = new System.Drawing.Point(4, 25);
             this.tabPageCores.Name = "tabPageCores";
             this.tabPageCores.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCores.Size = new System.Drawing.Size(398, 460);
+            this.tabPageCores.Size = new System.Drawing.Size(513, 460);
             this.tabPageCores.TabIndex = 0;
             this.tabPageCores.Text = "Cores";
             this.tabPageCores.UseVisualStyleBackColor = true;
+            // 
+            // txtOtherDir
+            // 
+            this.txtOtherDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtOtherDir.Location = new System.Drawing.Point(352, 391);
+            this.txtOtherDir.Name = "txtOtherDir";
+            this.txtOtherDir.Size = new System.Drawing.Size(68, 20);
+            this.txtOtherDir.TabIndex = 12;
+            this.txtOtherDir.Text = "_Other";
+            // 
+            // lblOtherDir
+            // 
+            this.lblOtherDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblOtherDir.AutoSize = true;
+            this.lblOtherDir.Location = new System.Drawing.Point(300, 394);
+            this.lblOtherDir.Name = "lblOtherDir";
+            this.lblOtherDir.Size = new System.Drawing.Size(47, 13);
+            this.lblOtherDir.TabIndex = 11;
+            this.lblOtherDir.Text = "Other dir";
             // 
             // chkRemoveArcadePrefix
             // 
@@ -576,7 +601,7 @@
             // btnDownloadCores
             // 
             this.btnDownloadCores.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDownloadCores.Location = new System.Drawing.Point(315, 403);
+            this.btnDownloadCores.Location = new System.Drawing.Point(430, 403);
             this.btnDownloadCores.Name = "btnDownloadCores";
             this.btnDownloadCores.Size = new System.Drawing.Size(75, 23);
             this.btnDownloadCores.TabIndex = 1;
@@ -598,25 +623,27 @@
             treeNode2.Name = "menu";
             treeNode2.Tag = "https://github.com/MiSTer-devel/Menu_MiSTer";
             treeNode2.Text = "Boot Menu";
-            treeNode3.Name = "cores";
+            treeNode3.Name = "computers---classic";
             treeNode3.Tag = "";
             treeNode3.Text = "Computer";
-            treeNode4.Name = "console-cores";
+            treeNode4.Name = "consoles---classic";
             treeNode4.Tag = "";
             treeNode4.Text = "Console";
-            treeNode5.Name = "arcade-cores";
-            treeNode5.Tag = "";
-            treeNode5.Text = "Arcade";
-            treeNode6.Name = "service-cores";
+            treeNode5.Name = "other-systems";
+            treeNode5.Text = "Other Systems";
+            treeNode6.Name = "arcade-cores";
             treeNode6.Tag = "";
-            treeNode6.Text = "Utility";
-            treeNode7.Name = "root";
-            treeNode7.Text = "Cores";
+            treeNode6.Text = "Arcade";
+            treeNode7.Name = "service-cores";
+            treeNode7.Tag = "";
+            treeNode7.Text = "Utility";
+            treeNode8.Name = "root";
+            treeNode8.Text = "Cores";
             this.treeViewCores.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
-            treeNode7});
-            this.treeViewCores.Size = new System.Drawing.Size(384, 379);
+            treeNode8});
+            this.treeViewCores.Size = new System.Drawing.Size(499, 379);
             this.treeViewCores.TabIndex = 0;
             this.treeViewCores.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewCores_AfterCheck);
             this.treeViewCores.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewCores_AfterSelect);
@@ -628,7 +655,7 @@
             this.tabPageExtras.Location = new System.Drawing.Point(4, 25);
             this.tabPageExtras.Name = "tabPageExtras";
             this.tabPageExtras.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageExtras.Size = new System.Drawing.Size(398, 460);
+            this.tabPageExtras.Size = new System.Drawing.Size(513, 460);
             this.tabPageExtras.TabIndex = 1;
             this.tabPageExtras.Text = "Extras";
             this.tabPageExtras.UseVisualStyleBackColor = true;
@@ -652,37 +679,36 @@
             this.treeViewExtras.CheckBoxes = true;
             this.treeViewExtras.Location = new System.Drawing.Point(6, 6);
             this.treeViewExtras.Name = "treeViewExtras";
-            treeNode8.Name = "Filters";
-            treeNode8.Tag = "https://github.com/MiSTer-devel/Filters_MiSTer/tree/master/Filters|txt|Filters";
-            treeNode8.Text = "Filters";
-            treeNode9.Name = "Fonts";
-            treeNode9.Tag = "https://github.com/MiSTer-devel/Fonts_MiSTer|pf|font";
-            treeNode9.Text = "Fonts";
-            treeNode10.Name = "Cheats";
-            treeNode10.Tag = "https://gamehacking.org/mister/|fds:NES gb:GameBoy gbc:GameBoy gen:Genesis gg:SMS" +
+            treeNode9.Name = "Filters";
+            treeNode9.Tag = "https://github.com/MiSTer-devel/Filters_MiSTer/tree/master/Filters|txt|Filters";
+            treeNode9.Text = "Filters";
+            treeNode10.Name = "Fonts";
+            treeNode10.Tag = "https://github.com/MiSTer-devel/Fonts_MiSTer|pf|font";
+            treeNode10.Text = "Fonts";
+            treeNode11.Name = "Cheats";
+            treeNode11.Tag = "https://gamehacking.org/mister/|fds:NES gb:GameBoy gbc:GameBoy gen:Genesis gg:SMS" +
     " nes:NES pce:TGFX16 sms:SMS snes:SNES|cheats";
-            treeNode10.Text = "Cheats";
-            treeNode11.Name = "Game Boy Palettes";
-            treeNode11.Tag = "https://github.com/MiSTer-devel/Gameboy_MiSTer/tree/master/palettes|gbp|GameBoy";
-            treeNode11.Text = "Game Boy Palettes";
-            treeNode12.Name = "Updater";
-            treeNode12.Tag = "https://github.com/MiSTer-devel/Updater_script_MiSTer|update.sh|Scripts";
-            treeNode12.Text = "Updater";
-            treeNode13.Name = "Scripts";
-            treeNode13.Tag = "https://github.com/MiSTer-devel/Scripts_MiSTer|sh inc|Scripts";
-            treeNode13.Text = "Scripts";
-            treeNode14.Name = "Other Authors Scripts";
-            treeNode14.Tag = "https://github.com/MiSTer-devel/Scripts_MiSTer/tree/master/other_authors|sh inc|S" +
+            treeNode11.Text = "Cheats";
+            treeNode12.Name = "Game Boy Palettes";
+            treeNode12.Tag = "https://github.com/MiSTer-devel/Gameboy_MiSTer/tree/master/palettes|gbp|GameBoy";
+            treeNode12.Text = "Game Boy Palettes";
+            treeNode13.Name = "Updater";
+            treeNode13.Tag = "https://github.com/MiSTer-devel/Updater_script_MiSTer|update.sh|Scripts";
+            treeNode13.Text = "Updater";
+            treeNode14.Name = "Scripts";
+            treeNode14.Tag = "https://github.com/MiSTer-devel/Scripts_MiSTer|sh inc|Scripts";
+            treeNode14.Text = "Scripts";
+            treeNode15.Name = "Other Authors Scripts";
+            treeNode15.Tag = "https://github.com/MiSTer-devel/Scripts_MiSTer/tree/master/other_authors|sh inc|S" +
     "cripts";
-            treeNode14.Text = "Other Authors Scripts";
-            treeNode15.Name = "SoundFont Installer";
-            treeNode15.Tag = "https://github.com/bbond007/MiSTer_MidiLink/tree/master/INSTALL|sh inc|Scripts";
-            treeNode15.Text = "SoundFont Installer";
-            treeNode16.Name = "NeoGeo romset.xml";
-            treeNode16.Tag = "https://github.com/MiSTer-devel/NeoGeo_MiSTer/tree/master/releases|xml|NeoGeo";
-            treeNode16.Text = "NeoGeo romset.xml";
+            treeNode15.Text = "Other Authors Scripts";
+            treeNode16.Name = "SoundFont Installer";
+            treeNode16.Tag = "https://github.com/bbond007/MiSTer_MidiLink/tree/master/INSTALL|sh inc|Scripts";
+            treeNode16.Text = "SoundFont Installer";
+            treeNode17.Name = "NeoGeo romset.xml";
+            treeNode17.Tag = "https://github.com/MiSTer-devel/NeoGeo_MiSTer/tree/master/releases|xml|NeoGeo";
+            treeNode17.Text = "NeoGeo romset.xml";
             this.treeViewExtras.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode8,
             treeNode9,
             treeNode10,
             treeNode11,
@@ -690,7 +716,8 @@
             treeNode13,
             treeNode14,
             treeNode15,
-            treeNode16});
+            treeNode16,
+            treeNode17});
             this.treeViewExtras.Size = new System.Drawing.Size(384, 379);
             this.treeViewExtras.TabIndex = 0;
             this.treeViewExtras.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewExtras_AfterSelect);
@@ -701,7 +728,7 @@
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 518);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(406, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(521, 22);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
@@ -731,7 +758,7 @@
             // 
             this.linkLabelMiSTerWiki.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelMiSTerWiki.AutoSize = true;
-            this.linkLabelMiSTerWiki.Location = new System.Drawing.Point(252, 523);
+            this.linkLabelMiSTerWiki.Location = new System.Drawing.Point(367, 523);
             this.linkLabelMiSTerWiki.Name = "linkLabelMiSTerWiki";
             this.linkLabelMiSTerWiki.Size = new System.Drawing.Size(142, 13);
             this.linkLabelMiSTerWiki.TabIndex = 4;
@@ -750,13 +777,13 @@
             this.cmbMiSTerDir.FormattingEnabled = true;
             this.cmbMiSTerDir.Location = new System.Drawing.Point(99, 495);
             this.cmbMiSTerDir.Name = "cmbMiSTerDir";
-            this.cmbMiSTerDir.Size = new System.Drawing.Size(272, 21);
+            this.cmbMiSTerDir.Size = new System.Drawing.Size(387, 21);
             this.cmbMiSTerDir.TabIndex = 5;
             // 
             // btnMiSTerDirRefresh
             // 
             this.btnMiSTerDirRefresh.Image = global::MiSTerConfigurator.Properties.Resources.loop_circular_2x;
-            this.btnMiSTerDirRefresh.Location = new System.Drawing.Point(377, 494);
+            this.btnMiSTerDirRefresh.Location = new System.Drawing.Point(490, 494);
             this.btnMiSTerDirRefresh.Name = "btnMiSTerDirRefresh";
             this.btnMiSTerDirRefresh.Size = new System.Drawing.Size(25, 23);
             this.btnMiSTerDirRefresh.TabIndex = 6;
@@ -767,7 +794,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 540);
+            this.ClientSize = new System.Drawing.Size(521, 540);
             this.Controls.Add(this.btnMiSTerDirRefresh);
             this.Controls.Add(this.cmbMiSTerDir);
             this.Controls.Add(this.linkLabelMiSTerWiki);
@@ -851,7 +878,8 @@
         private System.Windows.Forms.LinkLabel linkLabelUnixInstaller;
         private System.Windows.Forms.Button btnMiSTerDirRefresh;
         private System.Windows.Forms.CheckBox chkRemoveArcadePrefix;
-
+        private System.Windows.Forms.TextBox txtOtherDir;
+        private System.Windows.Forms.Label lblOtherDir;
     }
 }
 
