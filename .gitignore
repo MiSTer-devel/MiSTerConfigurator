@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/packages/SharpZipLib.0.86.0
+/MiSTerConfigurator/bin/Debug
+/MiSTerConfigurator/obj
